@@ -104,9 +104,13 @@ drop policy if exists "demos owner upload" on storage.objects;
 drop policy if exists "archives owner upload" on storage.objects;
 drop policy if exists "owners can update files" on storage.objects;
 drop policy if exists "owners can delete files" on storage.objects;
+drop policy if exists "authenticated can create archive links" on storage.objects;
+drop policy if exists "authenticated can read public archives" on storage.objects;
 
 create policy "covers owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'covers' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy "demos owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'demos' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy "archives owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'archives' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy "owners can update files" on storage.objects for update to authenticated using ((storage.foldername(name))[1] = auth.uid()::text) with check ((storage.foldername(name))[1] = auth.uid()::text);
 create policy "owners can delete files" on storage.objects for delete to authenticated using ((storage.foldername(name))[1] = auth.uid()::text);
+create policy "authenticated can read public archives" on storage.objects for select to authenticated using (bucket_id = 'archives' and exists (select 1 from public.kits where kits.archive_path = storage.objects.name and kits.visibility = 'public'));
+create policy "authenticated can create archive links" on storage.objects for select to authenticated using (bucket_id = 'archives' and (storage.foldername(name))[1] = auth.uid()::text);
