@@ -56,6 +56,10 @@ alter table public.demo_tracks enable row level security;
 alter table public.downloads enable row level security;
 
 drop policy if exists "public profiles are readable" on public.profiles;
+drop policy if exists "users can create own profile" on public.profiles;
+drop policy if exists "users can update own profile" on public.profiles;
+drop policy if exists "owners can update kits" on public.kits;
+drop policy if exists "owners can update demos" on public.demo_tracks;
 drop policy if exists "public kits are readable" on public.kits;
 drop policy if exists "public demos are readable" on public.demo_tracks;
 drop policy if exists "authenticated users can create kits" on public.kits;
@@ -63,10 +67,14 @@ drop policy if exists "authenticated users can create demos" on public.demo_trac
 drop policy if exists "anyone can record downloads" on public.downloads;
 
 create policy "public profiles are readable" on public.profiles for select using (true);
+create policy "users can create own profile" on public.profiles for insert to authenticated with check (auth.uid() = id);
+create policy "users can update own profile" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
 create policy "public kits are readable" on public.kits for select using (true);
 create policy "public demos are readable" on public.demo_tracks for select using (true);
 create policy "authenticated users can create kits" on public.kits for insert to authenticated with check (auth.uid() = producer_id);
 create policy "authenticated users can create demos" on public.demo_tracks for insert to authenticated with check (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid()));
+create policy "owners can update kits" on public.kits for update to authenticated using (auth.uid() = producer_id) with check (auth.uid() = producer_id);
+create policy "owners can update demos" on public.demo_tracks for update to authenticated using (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid())) with check (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid()));
 create policy "anyone can record downloads" on public.downloads for insert with check (true);
 
 drop policy if exists "covers owner upload" on storage.objects;
