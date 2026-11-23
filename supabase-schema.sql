@@ -26,6 +26,7 @@ create table if not exists public.kits (
   sample_count integer not null default 0,
   license text not null default 'ROYALTY-FREE',
   download_count integer not null default 0,
+  visibility text not null default 'public' check (visibility in ('public','private')),
   created_at timestamptz not null default now()
 );
 
@@ -44,6 +45,10 @@ create table if not exists public.downloads (
   user_id uuid references auth.users(id) on delete set null,
   created_at timestamptz not null default now()
 );
+
+alter table public.kits add column if not exists visibility text not null default 'public';
+alter table public.kits drop constraint if exists kits_visibility_check;
+alter table public.kits add constraint kits_visibility_check check (visibility in ('public','private'));
 
 create index if not exists kits_genre_tags_idx on public.kits using gin (genre_tags);
 create index if not exists kits_producer_id_idx on public.kits (producer_id);
