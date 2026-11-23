@@ -21,7 +21,7 @@ In production, add your Vercel URL as both the Site URL and a Redirect URL. Goog
 npm run dev
 ```
 
-The current upload action is still a prototype placeholder. It does not store user files. Real uploads require the Next.js/Supabase server flow described in the production roadmap.
+The static client supports Supabase Google authentication, direct Storage uploads, creator management, public/private kits, signed downloads, and demo playback. Run the latest `supabase-schema.sql` after every schema change. The current uploader does not scan ZIP contents or provide resumable uploads; do not accept untrusted large archives publicly until server-side archive validation and resumable transfer are added.
 
 ## Vercel
 
