@@ -55,14 +55,14 @@ create index if not exists kits_producer_id_idx on public.kits (producer_id);
 create index if not exists demo_tracks_kit_id_idx on public.demo_tracks (kit_id);
 create index if not exists downloads_kit_id_idx on public.downloads (kit_id);
 
-create or replace function public.record_kit_download(target_kit_id uuid, target_user_id uuid default auth.uid())
+create or replace function public.record_kit_download(target_kit_id uuid)
 returns void
 language plpgsql
 security invoker
 set search_path = public
 as $$
 begin
-  insert into public.downloads (kit_id, user_id) values (target_kit_id, target_user_id);
+  insert into public.downloads (kit_id, user_id) values (target_kit_id, auth.uid());
   update public.kits set download_count = download_count + 1 where id = target_kit_id and visibility = 'public';
   update public.profiles set total_downloads = total_downloads + 1 where id = (select producer_id from public.kits where id = target_kit_id);
 end;
