@@ -60,15 +60,22 @@ create index if not exists downloads_kit_id_idx on public.downloads (kit_id);
 create or replace function public.record_kit_download(target_kit_id uuid)
 returns void
 language plpgsql
-security invoker
+security definer
 set search_path = public
 as $$
+declare
+  owner_id uuid;
 begin
+  if auth.uid() is null then raise exception 'Authentication required'; end if;
+  select producer_id into owner_id from public.kits where id = target_kit_id and visibility = 'public';
+  if owner_id is null then raise exception 'Kit unavailable'; end if;
   insert into public.downloads (kit_id, user_id) values (target_kit_id, auth.uid());
   update public.kits set download_count = download_count + 1 where id = target_kit_id and visibility = 'public';
-  update public.profiles set total_downloads = total_downloads + 1 where id = (select producer_id from public.kits where id = target_kit_id);
+  update public.profiles set total_downloads = total_downloads + 1 where id = owner_id;
 end;
 $$;
+revoke all on function public.record_kit_download(uuid) from public;
+grant execute on function public.record_kit_download(uuid) to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.kits enable row level security;
@@ -108,6 +115,8 @@ drop policy if exists "owners can update files" on storage.objects;
 drop policy if exists "owners can delete files" on storage.objects;
 drop policy if exists "authenticated can create archive links" on storage.objects;
 drop policy if exists "authenticated can read public archives" on storage.objects;
+drop policy if exists "authenticated can read public demos" on storage.objects;
+drop policy if exists "public can read covers" on storage.objects;
 
 create policy "covers owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'covers' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy "demos owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'demos' and (storage.foldername(name))[1] = auth.uid()::text);
@@ -115,4 +124,6 @@ create policy "archives owner upload" on storage.objects for insert to authentic
 create policy "owners can update files" on storage.objects for update to authenticated using ((storage.foldername(name))[1] = auth.uid()::text) with check ((storage.foldername(name))[1] = auth.uid()::text);
 create policy "owners can delete files" on storage.objects for delete to authenticated using ((storage.foldername(name))[1] = auth.uid()::text);
 create policy "authenticated can read public archives" on storage.objects for select to authenticated using (bucket_id = 'archives' and exists (select 1 from public.kits where kits.archive_path = storage.objects.name and kits.visibility = 'public'));
+create policy "authenticated can read public demos" on storage.objects for select to authenticated using (bucket_id = 'demos' and exists (select 1 from public.demo_tracks join public.kits on kits.id = demo_tracks.kit_id where demo_tracks.audio_path = storage.objects.name and kits.visibility = 'public'));
+create policy "public can read covers" on storage.objects for select using (bucket_id = 'covers');
 create policy "authenticated can create archive links" on storage.objects for select to authenticated using (bucket_id = 'archives' and (storage.foldername(name))[1] = auth.uid()::text);
