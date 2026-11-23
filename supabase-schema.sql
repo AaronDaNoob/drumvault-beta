@@ -27,6 +27,7 @@ create table if not exists public.kits (
   license text not null default 'ROYALTY-FREE',
   download_count integer not null default 0,
   visibility text not null default 'public' check (visibility in ('public','private')),
+  contents_index jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
 
@@ -47,6 +48,7 @@ create table if not exists public.downloads (
 );
 
 alter table public.kits add column if not exists visibility text not null default 'public';
+alter table public.kits add column if not exists contents_index jsonb not null default '[]'::jsonb;
 alter table public.kits drop constraint if exists kits_visibility_check;
 alter table public.kits add constraint kits_visibility_check check (visibility in ('public','private'));
 
