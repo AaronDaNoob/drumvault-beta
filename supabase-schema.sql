@@ -18,6 +18,7 @@ create table if not exists public.kits (
   slug text unique not null,
   description text not null default '',
   genre_tags text[] not null default '{}',
+  type text not null default 'Soundkit' check (type in ('Soundkit','Drumkit','Samples','SFX')),
   price numeric(10,2) not null default 0,
   cover_art_path text,
   archive_path text,
@@ -47,6 +48,9 @@ create table if not exists public.downloads (
   created_at timestamptz not null default now()
 );
 
+alter table public.kits add column if not exists type text not null default 'Soundkit';
+alter table public.kits drop constraint if exists kits_type_check;
+alter table public.kits add constraint kits_type_check check (type in ('Soundkit','Drumkit','Samples','SFX'));
 alter table public.kits add column if not exists visibility text not null default 'public';
 alter table public.kits add column if not exists contents_index jsonb not null default '[]'::jsonb;
 alter table public.kits drop constraint if exists kits_visibility_check;
