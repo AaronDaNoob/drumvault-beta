@@ -106,7 +106,8 @@ create trigger on_auth_user_created after insert on auth.users for each row exec
 
 drop function if exists public.record_kit_download(uuid);
 drop function if exists public.record_kit_download(uuid, uuid);
-create or replace function public.record_kit_download(target_kit_id uuid, target_user_id uuid)
+drop function if exists public.record_kit_download_v2(uuid);
+create or replace function public.record_kit_download_v2(target_kit_id uuid)
 returns void
 language plpgsql
 security definer
@@ -123,8 +124,8 @@ begin
   update public.profiles set total_downloads = total_downloads + 1 where id = owner_id;
 end;
 $$;
-revoke all on function public.record_kit_download(uuid, uuid) from public;
-grant execute on function public.record_kit_download(uuid, uuid) to authenticated;
+revoke all on function public.record_kit_download_v2(uuid) from public;
+grant execute on function public.record_kit_download_v2(uuid) to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.kits enable row level security;
