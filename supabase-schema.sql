@@ -155,6 +155,7 @@ drop policy if exists "users can update own profile" on public.profiles;
 drop policy if exists "owners can update kits" on public.kits;
 drop policy if exists "owners can delete kits" on public.kits;
 drop policy if exists "owners can update demos" on public.demo_tracks;
+drop policy if exists "owners can delete demos" on public.demo_tracks;
 drop policy if exists "public kits are readable" on public.kits;
 drop policy if exists "owners can read own kits" on public.kits;
 drop policy if exists "public demos are readable" on public.demo_tracks;
@@ -179,6 +180,7 @@ create policy "authenticated users can create demos" on public.demo_tracks for i
 create policy "owners can update kits" on public.kits for update to authenticated using (auth.uid() = producer_id) with check (auth.uid() = producer_id);
 create policy "owners can delete kits" on public.kits for delete to authenticated using (auth.uid() = producer_id);
 create policy "owners can update demos" on public.demo_tracks for update to authenticated using (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid())) with check (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid()));
+create policy "owners can delete demos" on public.demo_tracks for delete to authenticated using (exists (select 1 from public.kits where kits.id = kit_id and kits.producer_id = auth.uid()));
 create policy "anyone can record downloads" on public.downloads for insert with check (true);
 create policy "public follows readable" on public.follows for select using (true);
 create policy "users manage own follows" on public.follows for all to authenticated using (auth.uid() = follower_id) with check (auth.uid() = follower_id and follower_id <> following_id);
