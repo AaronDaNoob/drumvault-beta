@@ -49,7 +49,20 @@ create table if not exists public.downloads (
 );
 
 alter table public.kits add column if not exists type text not null default 'Soundkit';
-alter table public.kits drop constraint if exists kits_type_check;
+do $$
+declare constraint_name text;
+begin
+  for constraint_name in
+    select conname
+    from pg_constraint
+    where conrelid = 'public.kits'::regclass
+      and contype = 'c'
+      and pg_get_constraintdef(oid) ilike '%type%'
+  loop
+    execute format('alter table public.kits drop constraint %I', constraint_name);
+  end loop;
+end;
+$$;
 alter table public.kits add constraint kits_type_check check (type in ('Soundkit','Drumkit','Beat Pack','Vocal Presets','Samples','SFX'));
 alter table public.kits add column if not exists visibility text not null default 'public';
 alter table public.kits add column if not exists contents_index jsonb not null default '[]'::jsonb;
