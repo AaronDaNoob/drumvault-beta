@@ -459,6 +459,13 @@ body{line-height:1.45}
 .grid{gap:32px 20px}
 .card{transition:transform .2s}
 .card:hover{transform:translateY(-3px)}
+/* headroom so hovered cards (lift + image zoom) are never clipped on top */
+.grid{padding-top:6px;margin-top:-6px}
+.card{position:relative}
+.card:hover{z-index:2}
+/* kit cards sit directly on the page background; no separate tinted box */
+body.dark .card,body.dark .card:hover{background:transparent;border-color:transparent;box-shadow:none}
+.card-link{display:block}
 .art{border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .card-info{padding:14px 2px 0}
 .card-title{font-size:15px}
