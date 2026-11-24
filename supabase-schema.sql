@@ -126,6 +126,7 @@ end;
 $$;
 revoke all on function public.record_kit_download_v2(uuid) from public;
 grant execute on function public.record_kit_download_v2(uuid) to authenticated;
+notify pgrst, 'reload schema';
 
 alter table public.profiles enable row level security;
 alter table public.kits enable row level security;
