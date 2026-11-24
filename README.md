@@ -1,72 +1,71 @@
 ﻿# DrumVault
 
-DrumVault is a lightweight producer marketplace for discovering, previewing, publishing, and downloading sample kits. The current implementation preserves the existing single-page visual experience while connecting authentication, PostgreSQL metadata, and Supabase Storage.
+> A focused marketplace for discovering, previewing, publishing, and downloading producer-made soundkits.
 
-## Production site
+[![Live site](https://img.shields.io/badge/live%20site-drumvault--aaron.vercel.app-ff5a1f?style=flat-square)](https://drumvault-aaron.vercel.app/)
+[![Built with Supabase](https://img.shields.io/badge/backend-Supabase-3ecf8e?style=flat-square)](https://supabase.com/)
 
-- Website: https://drumvault-aaron.vercel.app/
-- Repository: https://github.com/AaronDaNoob/drumvault-beta
+## Explore DrumVault
 
-## Current capabilities
+**Live app:** [drumvault-aaron.vercel.app](https://drumvault-aaron.vercel.app/)
 
-- Google authentication through Supabase Auth
-- Persistent browser sessions
-- Public marketplace catalog backed by `public.kits`
-- Search and genre/price filtering
-- Public kit detail pages with direct-share hash URLs
-- Producer-uploaded cover art and audio demos
-- Private archive storage with authenticated downloads
-- Signed/authorized archive access through Supabase Storage policies
-- Download records and producer download counters
-- Public/private kit visibility
-- Creator dashboard with kit visibility, editing, and deletion controls
-- Producer profile settings for username, display name, biography, and social links
-- Public producer profile pages
-- Dark mode and responsive mobile layout
-- License selection for new kits: royalty-free, all rights reserved, CC0, or custom
+DrumVault gives producers a simple place to publish soundkits and gives artists a fast way to browse, preview, and securely download them.
 
-## Project structure
+### What you can do
 
-```text
-public/index.html       Frontend application
-supabase-schema.sql     Idempotent database, RLS, RPC, and Storage policies
-vercel.json             Existing Vercel routing configuration
-package.json            Local static-server scripts
-.gitignore              Local and deployment exclusions
-```
+- Browse a public catalog of soundkits
+- Search by kit title or producer
+- Filter by kit type and free/paid metadata
+- Preview uploaded demo tracks with a persistent audio player
+- Sign in with Google through Supabase Auth
+- Create and edit a producer profile
+- Upload cover art, demos, and private ZIP archives
+- Publish or hide kits from the creator dashboard
+- Like kits and follow producers
+- Download public archives through authenticated, signed Storage URLs
+- Use responsive layouts and dark mode on desktop or mobile
 
-## Run locally
+## Quick start
 
 ```bash
+git clone https://github.com/AaronDaNoob/drumvault-beta.git
+cd drumvault-beta
 npm run dev
 ```
 
-The local server serves `public/`. The production-origin constant is intentionally used for shared links and OAuth redirects so copied links do not point at localhost.
+Open [http://localhost:3000](http://localhost:3000).
+
+The frontend is a static application served from `public/`. There is no build step.
+
+## Project map
+
+```text
+public/index.html       Single-page frontend, routing, UI, auth, uploads, playback
+supabase-schema.sql     Tables, RLS policies, RPC functions, and Storage policies
+vercel.json             Static Vercel routing
+package.json            Local development scripts
+```
 
 ## Supabase setup
 
-Create three Storage buckets with these exact names:
+Create these Storage buckets before testing uploads:
 
-| Bucket | Visibility | Purpose |
+| Bucket | Visibility | Used for |
 |---|---|---|
-| `covers` | Public | Producer cover artwork |
-| `demos` | Private or public with matching policies | Uploaded audio previews |
-| `archives` | Private | ZIP kit files |
+| `covers` | Public | Cover artwork and profile avatars |
+| `demos` | Private | Audio previews |
+| `archives` | Private | Downloadable ZIP archives |
 
-Then run the complete `supabase-schema.sql` in the Supabase SQL Editor. The script uses `drop policy if exists`, `create or replace function`, and `alter table ... add column if not exists` so it can be safely re-run as the schema evolves.
+Then run the complete [`supabase-schema.sql`](./supabase-schema.sql) in the Supabase SQL Editor. The schema is designed to be rerunnable and configures:
 
-The schema configures:
+- `profiles`, `kits`, `demo_tracks`, `downloads`, `follows`, `kit_likes`, and `notifications`
+- Public catalog reads and owner-only mutations
+- Producer profile creation and updates
+- Storage ownership paths beginning with the authenticated user ID
+- `toggle_kit_like(target_kit_id)` for like state changes
+- `record_kit_download(target_kit_id, target_user_id)` for download records and counters
 
-- `profiles`, `kits`, `demo_tracks`, and `downloads`
-- Producer ownership rules
-- Public/private kit visibility
-- Owner-only profile and kit mutations
-- Storage path rules requiring the authenticated user ID as the first path segment
-- Public cover/demo access for public kits
-- Protected archive access
-- `record_kit_download(uuid)`, which derives the downloader from `auth.uid()` and updates counters server-side
-
-Use paths in this shape:
+### Storage path convention
 
 ```text
 {auth-user-id}/{kit-id}/cover.webp
@@ -74,99 +73,104 @@ Use paths in this shape:
 {auth-user-id}/{kit-id}/kit.zip
 ```
 
-## Google login configuration
+Keep `archives` private. The app verifies public kit visibility, creates a short-lived signed URL, starts the browser download, and records the download through the RPC.
+
+## Google authentication
 
 1. In Google Cloud, create a Web OAuth client.
-2. Use this Supabase callback URL:
+2. Add this Supabase callback URL to the Google client:
 
-```text
-https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
-```
+   ```text
+   https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
+   ```
 
-3. In Supabase, enable **Authentication → Providers → Google** and paste the Google Client ID and Client Secret.
-4. In **Authentication → URL Configuration**, set the production Site URL to:
+3. In Supabase, enable **Authentication → Providers → Google**.
+4. Set the Supabase **Site URL** to:
 
-```text
-https://drumvault-aaron.vercel.app
-```
+   ```text
+   https://drumvault-aaron.vercel.app/
+   ```
 
-5. Add these redirect URLs:
+5. Add these Supabase **Redirect URLs**:
 
-```text
-https://drumvault-aaron.vercel.app
-https://drumvault-aaron.vercel.app/index.html
-http://localhost:3000
-http://localhost:3000/index.html
-```
+   ```text
+   https://drumvault-aaron.vercel.app/
+   https://drumvault-aaron.vercel.app/index.html
+   https://aarondanoob.github.io/drumvault-beta/
+   https://aarondanoob.github.io/drumvault-beta/index.html
+   http://localhost:3000/
+   http://localhost:3000/index.html
+   ```
+
+The frontend uses the current browser origin for OAuth redirects, so the same frontend works on Vercel, GitHub Pages, and local development.
 
 ## Frontend configuration
 
-The browser uses the Supabase project URL and publishable key in `public/index.html`:
+The browser uses a Supabase project URL and publishable/anon key in `public/index.html`:
 
 ```js
 const SUPABASE_URL = 'https://your-project.supabase.co';
 const SUPABASE_ANON_KEY = 'your-publishable-key';
 ```
 
-A publishable/anon key is intended for browser use. Never add a Supabase service-role key, Google client secret, payment secret, or other privileged credential to this file.
+A publishable/anon key is intended for browser use. Never expose a service-role key, Google client secret, payment secret, or other privileged credential in the frontend.
 
-## Upload behavior
+## Upload limits
 
 Authenticated producers can upload:
 
 - PNG, JPEG, or WebP cover art up to 5 MB
-- Up to three MP3/WAV demos, up to 25 MB each
+- Up to three MP3/WAV demo tracks, up to 25 MB each
 - ZIP archives up to 2 GB
-- Title, description, genre, price, and license metadata
+- Title, description, kit type, price metadata, sample count, and license
 
-The client stores exact Storage object paths in the database. Failed operations display an error instead of reporting a false success. The creator dashboard can change visibility, edit metadata, and remove the associated database/storage records.
+Failed uploads display an error and do not report false success. The dashboard supports kit visibility changes, metadata editing, demo management, archive replacement, and deletion.
 
-## Download behavior
+## Deployment
 
-Downloads require an authenticated user and a public kit. The app:
+### Vercel
 
-1. Loads the kit row and exact `archive_path`.
-2. Verifies public visibility through the database query and RLS.
-3. Downloads the actual object from the private `archives` bucket.
-4. Creates a local browser download with a sanitized `.zip` filename.
-5. Records the download through `record_kit_download(uuid)` only after the file is retrieved.
-
-If the database points to an object that is missing from Storage, the UI reports that archive as missing rather than returning a fake download.
-
-## Vercel deployment
-
-The existing project is already linked to Vercel. Deploy from this directory with:
+Push `main` to the connected Vercel project or deploy manually:
 
 ```bash
 npx vercel login
 npx vercel --prod
 ```
 
-The project is static, so no build command is required. The production alias is:
+The production URL is [drumvault-aaron.vercel.app](https://drumvault-aaron.vercel.app/).
+
+### GitHub Pages
+
+The repository publishes the `gh-pages` branch. The deployed URL is:
 
 ```text
-https://drumvault-aaron.vercel.app
+https://aarondanoob.github.io/drumvault-beta/
 ```
 
-After deployment, verify that Vercel Deployment Protection is disabled if the site should be publicly accessible.
+When publishing manually, copy `public/index.html` to the root of the `gh-pages` branch as `index.html`.
 
 ## Release checklist
 
-- [ ] Run `supabase-schema.sql` in the production Supabase project.
-- [ ] Confirm `covers`, `demos`, and `archives` buckets exist.
-- [ ] Confirm Google OAuth is enabled and callback URLs match.
-- [ ] Confirm Supabase Site URL is the Vercel domain.
-- [ ] Sign in with Google on the production site.
-- [ ] Create/update a producer profile.
-- [ ] Upload a small valid ZIP and demo file.
-- [ ] Confirm the kit appears in discovery when public.
-- [ ] Download the ZIP from a second authenticated account.
-- [ ] Open the downloaded archive and verify its contents.
-- [ ] Test making the kit private, then public again.
-- [ ] Test deleting a disposable kit and confirm its Storage objects are removed.
+- [ ] Run `supabase-schema.sql` in the production project
+- [ ] Confirm `covers`, `demos`, and `archives` buckets exist
+- [ ] Confirm Google OAuth is enabled
+- [ ] Confirm Supabase Site URL and redirect URLs match the deployed host
+- [ ] Sign in with Google on a separate device
+- [ ] Create or update a producer profile
+- [ ] Upload a small cover, demo, and ZIP archive
+- [ ] Confirm the kit appears when public
+- [ ] Preview its demo audio
+- [ ] Download the ZIP from an authenticated account
+- [ ] Confirm the download counter increments
+- [ ] Test hiding and republishing a kit
+- [ ] Delete a disposable kit and verify its Storage objects are removed
 
-## Known production limitations
+## Important limitations
 
-The current client validates file extensions, MIME types, and size limits, but does not inspect ZIP contents for path traversal, executable files, decompression bombs, or malicious payloads. It also uploads large files directly without resumable multipart transfer. Before accepting untrusted multi-gigabyte archives at scale, add a server-side archive validation worker and resumable upload flow.
+- Paid-kit checkout and purchase entitlements are not implemented. A non-zero price is metadata only.
+- ZIP contents are not inspected server-side for traversal, executable files, decompression bombs, or malicious payloads.
+- Large uploads use direct browser-to-Storage transfer rather than resumable multipart upload.
 
-Paid-kit checkout and purchase entitlements are not implemented. A non-zero price is currently metadata only; do not advertise paid downloads until payment processing and server-side entitlement checks are added.
+## License
+
+No open-source license has been declared yet. Contact the repository owner before reusing the application or its assets.
