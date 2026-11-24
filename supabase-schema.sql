@@ -104,8 +104,9 @@ end; $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created after insert on auth.users for each row execute function public.create_profile_for_new_user();
 
+drop function if exists public.record_kit_download(uuid);
 drop function if exists public.record_kit_download(uuid, uuid);
-create or replace function public.record_kit_download(target_kit_id uuid, target_user_id uuid default auth.uid())
+create or replace function public.record_kit_download(target_kit_id uuid, target_user_id uuid)
 returns void
 language plpgsql
 security definer
