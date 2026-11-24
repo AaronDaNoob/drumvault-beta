@@ -214,6 +214,7 @@ drop policy if exists "owners can delete files" on storage.objects;
 drop policy if exists "authenticated can create archive links" on storage.objects;
 drop policy if exists "authenticated can read public archives" on storage.objects;
 drop policy if exists "authenticated can read public demos" on storage.objects;
+drop policy if exists "public can read public demos" on storage.objects;
 drop policy if exists "public can read covers" on storage.objects;
 
 create policy "covers owner upload" on storage.objects for insert to authenticated with check (bucket_id = 'covers' and (storage.foldername(name))[1] = auth.uid()::text);
