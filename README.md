@@ -6,11 +6,9 @@
 
 Discover, preview, publish, and manage drumkits, soundkits, samples, beat packs, vocal presets, and sound effects.
 
-[![Open DrumVault](https://img.shields.io/badge/OPEN%20LIVE%20APP-FF5A1F?style=for-the-badge&logo=vercel&logoColor=white)](https://drumvault-aaron.vercel.app/#/)
-[![Supabase](https://img.shields.io/badge/POWERED%20BY-SUPABASE-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-[![Vanilla JavaScript](https://img.shields.io/badge/FRONTEND-VANILLA%20JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111111)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[Live app](https://drumvault-aaron.vercel.app/#/) · [Supabase](https://supabase.com/) · Vanilla JavaScript
 
-[Explore](#-explore-the-catalog) · [Create](#-creator-workflow) · [Screenshots](#-ui-snapshots) · [Run locally](#-run-it-locally) · [Deploy](#-deployment)
+[Explore](#explore-the-catalog) · [Create](#creator-workflow) · [Screenshots](#ui-snapshots) · [Run locally](#run-it-locally) · [Deploy](#deployment)
 
 </div>
 
@@ -18,18 +16,18 @@ Discover, preview, publish, and manage drumkits, soundkits, samples, beat packs,
 
 ## Jump in
 
-- [What is DrumVault?](#-what-is-drumvault)
-- [Catalog and explore](#-explore-the-catalog)
-- [Producers and social](#-producers--social)
-- [Creator workflow](#-creator-workflow)
-- [UI snapshots](#-ui-snapshots)
-- [How it works](#-how-it-works)
-- [Run it locally](#-run-it-locally)
-- [Configure Supabase and Google sign-in](#-configure-supabase--google-sign-in)
-- [Upload limits and downloads](#-uploads--downloads)
-- [Deploy](#-deployment)
+- [What is DrumVault?](what-is-drumvault)
+- [Catalog and explore](explore-the-catalog)
+- [Producers and social](producers--social)
+- [Creator workflow](creator-workflow)
+- [UI snapshots](ui-snapshots)
+- [How it works](how-it-works)
+- [Run it locally](run-it-locally)
+- [Configure Supabase and Google sign-in](configure-supabase--google-sign-in)
+- [Upload limits and downloads](uploads--downloads)
+- [Deploy](deployment)
 
-## 🎛 What is DrumVault?
+## What is DrumVault?
 
 DrumVault is a marketplace and creator toolkit for music producers and sound designers. Listeners can discover and preview sounds, while creators can publish collections, maintain their profiles, and manage the files behind each release.
 
@@ -127,7 +125,7 @@ DrumVault is a marketplace and creator toolkit for music producers and sound des
 
 </details>
 
-## 🖼 UI snapshots
+## UI snapshots
 
 The paths below are placeholders until screenshots are added. Save captures under `docs/screenshots/` and use the filenames in this gallery.
 
@@ -140,7 +138,7 @@ The paths below are placeholders until screenshots are added. Save captures unde
 | Creator dashboard | `./docs/screenshots/dashboard.png` | Creator stats, kit list, visibility controls |
 | Edit soundkit modal | `./docs/screenshots/edit-soundkit.png` | Metadata and file-management workflow |
 
-## 🧩 How it works
+## How it works
 
 <details>
 <summary><strong>Architecture at a glance</strong></summary>
@@ -158,7 +156,7 @@ The browser accesses Supabase using the project URL and publishable/anon key. Ro
 
 </details>
 
-## 🚀 Run it locally
+## Run it locally
 
 ```bash
 git clone https://github.com/AaronDaNoob/drumvault-beta.git
@@ -177,7 +175,7 @@ vercel.json             Vercel routing configuration
 package.json            Local static-server commands
 ```
 
-## 🔐 Configure Supabase & Google sign-in
+## Configure Supabase and Google sign-in
 
 <details>
 <summary><strong>Authentication and Storage setup</strong></summary>
@@ -207,7 +205,7 @@ The app redirects OAuth back to the active site origin. The Supabase project URL
 
 </details>
 
-## 📦 Uploads & downloads
+## Uploads and downloads
 
 - Cover art: PNG, JPEG, or WebP; up to 5 MB.
 - Demo audio: up to 3 MP3/WAV tracks; up to 25 MB per track.
@@ -216,7 +214,7 @@ The app redirects OAuth back to the active site origin. The Supabase project URL
 - ZIP downloads require sign-in and public kit visibility; archives remain in private Storage.
 - Paid prices are metadata only; purchase and entitlement processing are not implemented.
 
-## 🚢 Deployment
+## Deployment
 
 ### Vercel
 
@@ -233,7 +231,7 @@ Live site: [https://drumvault-aaron.vercel.app/#/](https://drumvault-aaron.verce
 
 The alternate static deployment is [https://aarondanoob.github.io/drumvault-beta/](https://aarondanoob.github.io/drumvault-beta/), served from `gh-pages`.
 
-## ✅ Release checklist
+## Release checklist
 
 - [ ] Run the latest Supabase schema in the production project
 - [ ] Confirm all three Storage buckets and their access levels
@@ -245,7 +243,7 @@ The alternate static deployment is [https://aarondanoob.github.io/drumvault-beta
 - [ ] Check that likes, follows, and download counts update
 - [ ] Test hiding, republishing, editing, and deleting a kit
 
-## ⚠️ Current limitations
+## Current limitations
 
 - Checkout and paid-kit download entitlements are not implemented.
 - ZIP archives are not scanned for malicious contents or decompression bombs.
@@ -258,6 +256,6 @@ The alternate static deployment is [https://aarondanoob.github.io/drumvault-beta
 
 Built for the people who make the sounds.
 
-**[Open DrumVault →](https://drumvault-aaron.vercel.app/#/)**
+**[Open DrumVault](https://drumvault-aaron.vercel.app/#/)**
 
 </div>
