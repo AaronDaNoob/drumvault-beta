@@ -207,6 +207,6 @@ create policy "archives owner upload" on storage.objects for insert to authentic
 create policy "owners can update files" on storage.objects for update to authenticated using ((storage.foldername(name))[1] = auth.uid()::text) with check ((storage.foldername(name))[1] = auth.uid()::text);
 create policy "owners can delete files" on storage.objects for delete to authenticated using ((storage.foldername(name))[1] = auth.uid()::text);
 create policy "authenticated can read public archives" on storage.objects for select to authenticated using (bucket_id = 'archives' and exists (select 1 from public.kits where kits.archive_path = storage.objects.name and kits.visibility = 'public'));
-create policy "authenticated can read public demos" on storage.objects for select to authenticated using (bucket_id = 'demos' and exists (select 1 from public.demo_tracks join public.kits on kits.id = demo_tracks.kit_id where demo_tracks.audio_path = storage.objects.name and kits.visibility = 'public'));
+create policy "public can read public demos" on storage.objects for select using (bucket_id = 'demos' and exists (select 1 from public.demo_tracks join public.kits on kits.id = demo_tracks.kit_id where demo_tracks.audio_path = storage.objects.name and kits.visibility = 'public'));
 create policy "public can read covers" on storage.objects for select using (bucket_id = 'covers');
 create policy "authenticated can create archive links" on storage.objects for select to authenticated using (bucket_id = 'archives' and (storage.foldername(name))[1] = auth.uid()::text);
