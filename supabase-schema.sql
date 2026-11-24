@@ -123,8 +123,8 @@ begin
   update public.profiles set total_downloads = total_downloads + 1 where id = owner_id;
 end;
 $$;
-revoke all on function public.record_kit_download(uuid) from public;
-grant execute on function public.record_kit_download(uuid) to authenticated;
+revoke all on function public.record_kit_download(uuid, uuid) from public;
+grant execute on function public.record_kit_download(uuid, uuid) to authenticated;
 
 alter table public.profiles enable row level security;
 alter table public.kits enable row level security;
