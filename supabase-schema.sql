@@ -67,7 +67,7 @@ alter table public.kits add constraint kits_type_check check (type in ('Soundkit
 alter table public.kits add column if not exists visibility text not null default 'public';
 alter table public.kits add column if not exists contents_index jsonb not null default '[]'::jsonb;
 alter table public.kits drop constraint if exists kits_visibility_check;
-alter table public.kits add constraint kits_visibility_check check (visibility in ('public','private'));
+alter table public.kits add constraint kits_visibility_check check (visibility in ('public','private','draft'));
 
 create index if not exists kits_genre_tags_idx on public.kits using gin (genre_tags);
 create index if not exists kits_producer_id_idx on public.kits (producer_id);
