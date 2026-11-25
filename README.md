@@ -96,8 +96,8 @@ package.json            Local development scripts
 |---|---|
 | Vercel | Production hosting for the frontend |
 | Supabase Auth | Google login and session persistence |
-| Supabase Database | Profiles, kits, demo tracks, likes, follows, downloads, conversations, messages, reactions, blocks, reports, notifications, and preferences |
-| Supabase Storage | Covers, previews, private ZIP archives, and participant-only chat attachments |
+| Supabase Database | Profiles, kits, demo tracks, likes, follows, downloads, notifications |
+| Supabase Storage | Covers, previews, and private ZIP archives |
 | GitHub Pages | Alternate static deployment from `gh-pages` |
 
 The frontend uses the Supabase project URL and publishable/anon key. Never place a service-role key or OAuth client secret in browser code.
@@ -124,26 +124,7 @@ Create these Storage buckets:
 | `demos` | Private | Audio previews |
 | `archives` | Private | Downloadable ZIP files |
 
-Run the complete [`supabase-schema.sql`](./supabase-schema.sql) in the Supabase SQL Editor. Then run these migrations in order:
-
-```text
-supabase-messaging-migration.sql
-supabase-messaging-step5.sql
-supabase-messaging-step6.sql
-supabase-notifications-step7.sql
-```
-
-The migrations add Discord-style direct messages with group-ready participants, realtime delivery, presence, typing indicators, read receipts, unread counts, edits, deletes, replies, reactions, Markdown-lite rendering, reports, blocks, mutes, rate limits, notifications, notification preferences, profile/kit activity tracking, and row-level security.
-
-For attachments, create a private bucket named `message-attachments` with a 15 MB file limit and these MIME types:
-
-```text
-image/png,image/jpeg,image/webp,audio/mpeg,audio/wav
-```
-
-The Step 5 migration adds participant-only Storage policies. Enable `public.messages` and `public.notifications` in the `supabase_realtime` publication. You can run [`supabase-final-setup.sql`](../supabase-final-setup.sql) for bucket configuration and publication verification, if that file is available beside the repository checkout.
-
-Use [`drumvault-demo-seed.sql`](./drumvault-demo-seed.sql) only for testing: replace its placeholder profile UUIDs with two real authenticated profile IDs before running it.
+Run the complete [`supabase-schema.sql`](./supabase-schema.sql) in the Supabase SQL Editor. The schema configures tables, row-level security, Storage policies, demo deletion permissions, kit visibility, likes, follows, and download RPCs.
 
 ### Google OAuth redirect URLs
 
@@ -164,21 +145,6 @@ Google Cloud should use the Supabase callback URL:
 https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
 ```
 
-## Messaging and notifications
-
-DrumVault now includes a realtime community inbox at `#/messages`:
-
-- Producer-to-producer DMs with conversation search and a new-message flow
-- Responsive desktop three-pane chat and mobile list/chat navigation
-- Realtime messages, optimistic sending, typing indicators, presence, read receipts, unread badges, and conversation ordering
-- Message editing, deletion, replies, reactions, emoji picker, copy/report actions, Markdown-lite formatting, and in-conversation search
-- Image and MP3/WAV attachments with previews, lightbox viewing, audio playback through the persistent bottom player, and participant-only Storage access
-- Kit and producer sharing into conversations
-- Block/unblock, mute/unmute, message reporting, message length/rate limits, and database-enforced safety rules
-- Realtime activity notifications at `#/notifications`, notification filters, read controls, preference toggles, and navbar alerts
-
-The notification system respects `notification_preferences`, suppresses self-notifications, deduplicates repeated events, and keeps message activity in the Messages badge while the user is in the Messages area.
-
 ## Upload and download limits
 
 Current client-side limits:
@@ -196,14 +162,12 @@ The effective limit is also controlled by Supabase Storage settings and the proj
 
 ### Vercel
 
-The `main` branch is connected to Vercel. Deploy from the repository root:
+The `main` branch is connected to Vercel:
 
 ```bash
 npx vercel login
 npx vercel --prod
 ```
-
-The static app is served from `public/` through `vercel.json`. Configure the Supabase URL and publishable/anon key in the frontend before deploying; never expose a service-role key.
 
 Production URL: [drumvault-aaron.vercel.app](https://drumvault-aaron.vercel.app/#/)
 
