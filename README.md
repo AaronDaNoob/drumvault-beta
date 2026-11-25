@@ -155,7 +155,7 @@ Current client-side limits:
 
 - Cover art: PNG, JPEG, or WebP up to 5 MB
 - Demo audio: up to 3 MP3/WAV files, 25 MB each
-- ZIP archive: 50 MB per file on the current configuration, or use a Google Drive/Dropbox/OneDrive HTTPS source link for larger kits
+- ZIP archive: 50 MB per file on the current configuration
 - Public previews: available without sign-in
 - Free ZIP downloads: require Google sign-in
 - Paid packs: download is disabled until purchase support is implemented
