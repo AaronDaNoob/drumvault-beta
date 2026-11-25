@@ -1,162 +1,110 @@
 ﻿<div align="center">
 
-# DRUMVAULT
+# DrumVault
 
-### A home for the sounds behind the next great record.
+**A focused home for producer-made sounds.**
 
-Discover, preview, publish, and manage drumkits, soundkits, samples, beat packs, vocal presets, and sound effects.
+Discover and preview drumkits, soundkits, samples, beat packs, vocal presets, and SFX. Publish your own releases, manage your profile, and share sounds with your community.
 
-[Live app](https://drumvault-aaron.vercel.app/#/) · [Supabase](https://supabase.com/) · Vanilla JavaScript
-
-[Explore](#explore-the-catalog) · [Create](#creator-workflow) · [Screenshots](#ui-snapshots) · [Run locally](#run-it-locally) · [Deploy](#deployment)
+[Open the live app](https://drumvault-aaron.vercel.app/#/) · [View the repository](https://github.com/AaronDaNoob/drumvault-beta)
 
 </div>
 
 ---
 
-## Jump in
+## At a glance
 
-- [What is DrumVault?](what-is-drumvault)
-- [Catalog and explore](explore-the-catalog)
-- [Producers and social](producers--social)
-- [Creator workflow](creator-workflow)
-- [UI snapshots](ui-snapshots)
-- [How it works](how-it-works)
-- [Run it locally](run-it-locally)
-- [Configure Supabase and Google sign-in](configure-supabase--google-sign-in)
-- [Upload limits and downloads](uploads--downloads)
-- [Deploy](deployment)
-
-## What is DrumVault?
-
-DrumVault is a marketplace and creator toolkit for music producers and sound designers. Listeners can discover and preview sounds, while creators can publish collections, maintain their profiles, and manage the files behind each release.
-
-**Live app:** [drumvault-aaron.vercel.app](https://drumvault-aaron.vercel.app/#/)
-
-<details>
-<summary><strong>Explore the catalog</strong></summary>
-
-### Find the right sound
-
-- Filter by **All**, **Soundkit**, **Drumkit**, **Beat Pack**, **Vocal Presets**, **Samples**, **SFX**, **Free**, or **Paid**.
-- Search catalog items by title and producer.
-- Sort by **Newest** or **Most downloaded**.
-- The section heading follows the active filter, such as **All Sounds**, **Beat Packs**, or **Free Sounds**.
-- Cards surface artwork, producer, likes, downloads, and price.
-- Open a kit for its description, contents, demos, likes, sharing, and download actions.
-- Preview public demos without signing in. Sign-in is required to download archives.
-
-**Snapshot slot — Explore feed**
-
-> Add `docs/screenshots/explore.png` to show the full catalog, active filter, sorting control, and responsive card grid.
-
-```md
-![DrumVault Explore feed](./docs/screenshots/explore.png)
-```
-
-**Snapshot slot — Soundkit cards and detail page**
-
-> Add `docs/screenshots/kit-detail.png` to show artwork, producer attribution, price, demo playback, and the Download Kit / Like / Copy link actions.
-
-```md
-![Soundkit details and actions](./docs/screenshots/kit-detail.png)
-```
-
-</details>
-
-<details>
-<summary><strong>Discover producers and connect</strong></summary>
-
-### Producers directory
-
-- Browse producer profiles, handles, biographies, and published kits.
-- Compare follower, following, kit, download, and like stats.
-- Follow and unfollow producers while signed in.
-- Sign in through Google using Supabase Auth.
-- Crop and reposition profile pictures before saving.
-
-**Snapshot slot — Producers directory**
-
-> Add `docs/screenshots/producers.png` to show producer cards, profile stats, and follow controls.
-
-```md
-![DrumVault Producers directory](./docs/screenshots/producers.png)
-```
-
-**Snapshot slot — Profile picture cropper**
-
-> Add `docs/screenshots/profile-cropper.png` to show the crop, reposition, and zoom experience.
-
-```md
-![Profile picture cropper](./docs/screenshots/profile-cropper.png)
-```
-
-</details>
-
-<details>
-<summary><strong>Creator workflow and kit management</strong></summary>
-
-### Creator dashboard
-
-- Review your published kits, download totals, and likes.
-- Preview how a kit appears to listeners, including its demo tracks.
-- Change kit visibility between **Public** and **Hidden**.
-- Edit title, description, type, price, license, visibility, cover art, and archive.
-- Rename, add, and remove demo tracks.
-- Delete a kit and its associated Storage objects.
-
-> Visibility labels shown in the UI depend on the current app version; the database currently supports public and private kits.
-
-**Snapshot slot — Creator dashboard**
-
-> Add `docs/screenshots/dashboard.png` to show kit management, stats, visibility, and actions.
-
-```md
-![Creator dashboard](./docs/screenshots/dashboard.png)
-```
-
-**Snapshot slot — Edit soundkit modal**
-
-> Add `docs/screenshots/edit-soundkit.png` to show metadata, visibility, archive replacement, and demo-track controls.
-
-```md
-![Edit soundkit](./docs/screenshots/edit-soundkit.png)
-```
-
-</details>
-
-## UI snapshots
-
-The paths below are placeholders until screenshots are added. Save captures under `docs/screenshots/` and use the filenames in this gallery.
-
-| View | Screenshot | What to capture |
+| Explore | Create | Connect |
 |---|---|---|
-| Explore feed | `./docs/screenshots/explore.png` | Hero, filter pills, sorting, and catalog cards |
-| Soundkit cards and detail | `./docs/screenshots/kit-detail.png` | Art, likes/downloads, preview, and detail actions |
-| Producers directory | `./docs/screenshots/producers.png` | Producer profiles, stats, and follow controls |
-| Profile cropper | `./docs/screenshots/profile-cropper.png` | Picture framing and zoom controls |
-| Creator dashboard | `./docs/screenshots/dashboard.png` | Creator stats, kit list, visibility controls |
-| Edit soundkit modal | `./docs/screenshots/edit-soundkit.png` | Metadata and file-management workflow |
+| Search and filter releases by type, price, and popularity | Upload covers, demos, metadata, and ZIP archives | Sign in with Google, follow producers, and like kits |
+| Preview audio before downloading | Edit, hide, publish, or delete your kits | Share producer profiles and kit pages |
 
-## How it works
+## What makes DrumVault useful?
+
+DrumVault is designed around a simple workflow: find a sound, hear it quickly, and give producers control over their catalog.
+
+- Catalog filters for **All**, **Soundkit**, **Drumkit**, **Beat Pack**, **Vocal Presets**, **Samples**, **SFX**, **Free**, and **Paid**
+- Search across kit titles and producers
+- Sort by newest releases or most downloaded kits
+- Live category counts and filter-aware section headings
+- Persistent audio player with playback controls, seeking, volume, and track navigation
+- Public demo previews without requiring sign-in
+- Authenticated downloads for free public packs
+- Paid-pack state shown clearly while purchase support is not yet enabled
+- Google authentication through Supabase
+- Producer profiles with social links, avatars, follows, likes, and activity
+- Creator dashboard with visibility controls, archive storage usage, and kit management
+- Draft, public, and hidden kit workflows
+- Cover-art cropping, preview states, and cache-safe artwork replacement
+
+## Interface snapshots
+
+Add screenshots to `docs/screenshots/` using the filenames below. The layout is ready for a polished GitHub project page.
+
+| Screen | Image | Description |
+|---|---|---|
+| Explore feed | `./docs/screenshots/explore.png` | Catalog hero, filters, counts, sorting, and cards |
+| Kit detail | `./docs/screenshots/kit-detail.png` | Artwork, demos, pricing, likes, and actions |
+| Producers | `./docs/screenshots/producers.png` | Producer directory, stats, and follow controls |
+| Dashboard | `./docs/screenshots/dashboard.png` | Storage usage, kit management, and visibility |
+| Edit kit | `./docs/screenshots/edit-kit.png` | Metadata, archive, cover, and demo-track editing |
+| Profile cropper | `./docs/screenshots/profile-cropper.png` | Avatar crop and reposition workflow |
+
+```md
+![Explore feed](./docs/screenshots/explore.png)
+```
 
 <details>
-<summary><strong>Architecture at a glance</strong></summary>
+<summary><strong>Explore feed details</strong></summary>
 
-| Layer | Responsibility |
-|---|---|
-| `public/index.html` | Single-page UI, hash routing, catalog, auth client, upload/download flows, playback |
-| Supabase Auth | Google OAuth and persisted user sessions |
-| Supabase Database | Producer profiles, kit metadata, likes, follows, and download records |
-| Supabase Storage | Cover artwork, audio demos, private ZIP archives |
-| Vercel | Hosts the static production frontend |
-| GitHub Pages | Alternate static deployment from the `gh-pages` branch |
+The Explore page is the main catalog view. It includes:
 
-The browser accesses Supabase using the project URL and publishable/anon key. Row Level Security and Storage policies enforce ownership and public/private access. Private archives are downloaded through short-lived signed URLs after the app verifies kit visibility and authentication.
+- Search by sound, kit, or producer
+- Filter pills with live result counts
+- Newest and most-downloaded sorting
+- Responsive cards with artwork, producer, likes, downloads, and pricing
+- Dynamic headings such as `All Sounds`, `Beat Packs`, and `Free Sounds`
 
 </details>
 
-## Run it locally
+<details>
+<summary><strong>Creator workflow</strong></summary>
+
+Producers can:
+
+1. Sign in with Google.
+2. Complete their producer profile.
+3. Upload a cover, demo tracks, and ZIP archive.
+4. Choose a release type, price, license, and visibility.
+5. Publish the kit or save it as a draft.
+6. Edit metadata, replace files, rename demos, or remove demos.
+7. Monitor archive storage usage and download counts from the dashboard.
+
+</details>
+
+<details>
+<summary><strong>Architecture</strong></summary>
+
+```text
+public/index.html       Static single-page frontend and client-side routing
+supabase-schema.sql     Database tables, RLS policies, RPCs, and Storage policies
+vercel.json             Vercel static routing
+package.json            Local development scripts
+```
+
+| Service | Responsibility |
+|---|---|
+| Vercel | Production hosting for the frontend |
+| Supabase Auth | Google login and session persistence |
+| Supabase Database | Profiles, kits, demo tracks, likes, follows, downloads, notifications |
+| Supabase Storage | Covers, previews, and private ZIP archives |
+| GitHub Pages | Alternate static deployment from `gh-pages` |
+
+The frontend uses the Supabase project URL and publishable/anon key. Never place a service-role key or OAuth client secret in browser code.
+
+</details>
+
+## Run locally
 
 ```bash
 git clone https://github.com/AaronDaNoob/drumvault-beta.git
@@ -164,98 +112,97 @@ cd drumvault-beta
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). This is a static frontend; no compilation step is required.
+Open [http://localhost:3000](http://localhost:3000). DrumVault is a static frontend and does not require a build step.
 
-### Project layout
+## Supabase setup
+
+Create these Storage buckets:
+
+| Bucket | Visibility | Purpose |
+|---|---|---|
+| `covers` | Public | Kit covers and profile avatars |
+| `demos` | Private | Audio previews |
+| `archives` | Private | Downloadable ZIP files |
+
+Run the complete [`supabase-schema.sql`](./supabase-schema.sql) in the Supabase SQL Editor. The schema configures tables, row-level security, Storage policies, demo deletion permissions, kit visibility, likes, follows, and download RPCs.
+
+### Google OAuth redirect URLs
+
+Enable Google under Supabase Authentication, then configure these redirect URLs as needed:
 
 ```text
-public/index.html       App UI and client-side application
-supabase-schema.sql     Database, RLS, RPC, and Storage policies
-vercel.json             Vercel routing configuration
-package.json            Local static-server commands
+https://drumvault-aaron.vercel.app/
+https://drumvault-aaron.vercel.app/index.html
+https://aarondanoob.github.io/drumvault-beta/
+https://aarondanoob.github.io/drumvault-beta/index.html
+http://localhost:3000/
+http://localhost:3000/index.html
 ```
 
-## Configure Supabase and Google sign-in
+Google Cloud should use the Supabase callback URL:
 
-<details>
-<summary><strong>Authentication and Storage setup</strong></summary>
+```text
+https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
+```
 
-1. Create the `covers` (public), `demos`, and `archives` (private) Storage buckets.
-2. Run [`supabase-schema.sql`](./supabase-schema.sql) in the Supabase SQL Editor.
-3. In Google Cloud, create a Web OAuth client and add the Supabase callback:
+## Upload and download limits
 
-   ```text
-   https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
-   ```
+Current client-side limits:
 
-4. Enable **Authentication → Providers → Google** in Supabase.
-5. Set the Supabase Site URL to `https://drumvault-aaron.vercel.app/`.
-6. Add deployed and local origins under **Authentication → URL Configuration → Redirect URLs**:
+- Cover art: PNG, JPEG, or WebP up to 5 MB
+- Demo audio: up to 3 MP3/WAV files, 25 MB each
+- ZIP archive: 50 MB per file on the current configuration
+- Public previews: available without sign-in
+- Free ZIP downloads: require Google sign-in
+- Paid packs: download is disabled until purchase support is implemented
 
-   ```text
-   https://drumvault-aaron.vercel.app/
-   https://drumvault-aaron.vercel.app/index.html
-   https://aarondanoob.github.io/drumvault-beta/
-   https://aarondanoob.github.io/drumvault-beta/index.html
-   http://localhost:3000/
-   http://localhost:3000/index.html
-   ```
-
-The app redirects OAuth back to the active site origin. The Supabase project URL and publishable/anon key are configured in `public/index.html`. Never put a service-role key or Google client secret in browser code.
-
-</details>
-
-## Uploads and downloads
-
-- Cover art: PNG, JPEG, or WebP; up to 5 MB.
-- Demo audio: up to 3 MP3/WAV tracks; up to 25 MB per track.
-- ZIP archive: app limit currently **50 MB per file**; the Supabase project’s global and bucket limits may be lower.
-- Public demo previews are available without sign-in.
-- ZIP downloads require sign-in and public kit visibility; archives remain in private Storage.
-- Paid prices are metadata only; purchase and entitlement processing are not implemented.
+The effective limit is also controlled by Supabase Storage settings and the project plan. Storage capacity, egress, database size, and monthly active users should be monitored before expanding the community.
 
 ## Deployment
 
 ### Vercel
 
-The `main` branch is connected to Vercel. To deploy manually:
+The `main` branch is connected to Vercel:
 
 ```bash
 npx vercel login
 npx vercel --prod
 ```
 
-Live site: [https://drumvault-aaron.vercel.app/#/](https://drumvault-aaron.vercel.app/#/)
+Production URL: [drumvault-aaron.vercel.app](https://drumvault-aaron.vercel.app/#/)
 
 ### GitHub Pages
 
-The alternate static deployment is [https://aarondanoob.github.io/drumvault-beta/](https://aarondanoob.github.io/drumvault-beta/), served from `gh-pages`.
+The alternate deployment is available at [aarondanoob.github.io/drumvault-beta](https://aarondanoob.github.io/drumvault-beta/), served from the `gh-pages` branch.
 
 ## Release checklist
 
-- [ ] Run the latest Supabase schema in the production project
-- [ ] Confirm all three Storage buckets and their access levels
-- [ ] Test Google sign-in from a separate device
-- [ ] Upload a small kit with cover, demo, and ZIP
-- [ ] Verify category filtering and both catalog sort modes
-- [ ] Preview public demos while signed out
-- [ ] Download a public ZIP while signed in
-- [ ] Check that likes, follows, and download counts update
-- [ ] Test hiding, republishing, editing, and deleting a kit
+- [ ] Run the latest Supabase schema
+- [ ] Confirm Storage buckets and policies
+- [ ] Test Google login on another device
+- [ ] Upload a small free kit
+- [ ] Preview demos while signed out
+- [ ] Download the free kit while signed in
+- [ ] Test paid-pack download blocking
+- [ ] Test editing, deleting, hiding, drafting, and republishing
+- [ ] Confirm category filters, counts, and sorting
+- [ ] Check dashboard storage usage
+- [ ] Add screenshots under `docs/screenshots/`
+- [ ] Verify Supabase storage and egress usage
 
-## Current limitations
+## Known limitations
 
-- Checkout and paid-kit download entitlements are not implemented.
-- ZIP archives are not scanned for malicious contents or decompression bombs.
-- Uploads are direct browser-to-Storage transfers, not resumable multipart uploads.
-- Capacity and maximum upload size depend on the Supabase plan and Storage configuration.
+- Paid checkout and purchase entitlements are not implemented.
+- Large uploads use direct browser-to-Storage transfer rather than resumable multipart uploads.
+- ZIP contents are not scanned for malware or decompression bombs.
+- Production error monitoring, analytics, and rate limiting still need to be added for a larger public launch.
 
 ---
 
 <div align="center">
 
-Built for the people who make the sounds.
+Built for producers who care about the sounds behind the track.
 
-**[Open DrumVault](https://drumvault-aaron.vercel.app/#/)**
+[Open DrumVault](https://drumvault-aaron.vercel.app/#/)
 
 </div>
