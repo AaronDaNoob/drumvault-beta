@@ -194,7 +194,7 @@ The alternate deployment is available at [aarondanoob.github.io/drumvault-beta](
 
 - Paid checkout and purchase entitlements are not implemented.
 - Large uploads use direct browser-to-Storage transfer rather than resumable multipart uploads.
-- ZIP contents are not scanned for malware or decompression bombs.
+- ZIP uploads receive client-side structure, path-traversal, entry-count, and decompression-ratio checks, but are not malware-scanned. Client-side checks can be bypassed; add trusted server-side scanning before accepting untrusted public uploads.
 - Production error monitoring, analytics, and rate limiting still need to be added for a larger public launch.
 
 ---
