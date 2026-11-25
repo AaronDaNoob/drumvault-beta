@@ -35,6 +35,10 @@ DrumVault is designed around a simple workflow: find a sound, hear it quickly, a
 - Producer profiles with social links, avatars, follows, likes, and activity
 - Creator dashboard with visibility controls, archive storage usage, and kit management
 - Draft, public, and hidden kit workflows
+- Upload draft autosave and recovery after refresh
+- Lazy-loaded images with async decoding for faster catalog rendering
+- Offline/online status feedback and throttled runtime error toasts
+- Keyboard shortcuts: `/` focuses search and Space toggles the persistent player
 - Cover-art cropping, preview states, and cache-safe artwork replacement
 
 ## Interface snapshots
