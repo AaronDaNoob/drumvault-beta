@@ -22,6 +22,8 @@ create table if not exists public.kits (
   price numeric(10,2) not null default 0,
   cover_art_path text,
   archive_path text,
+  source_url text,
+  source_type text check (source_type in ('upload','google_drive','dropbox','onedrive','other')),
   archive_size_bytes bigint,
   format text not null default 'WAV / 24-BIT',
   sample_count integer not null default 0,
@@ -48,6 +50,10 @@ create table if not exists public.downloads (
   created_at timestamptz not null default now()
 );
 
+alter table public.kits add column if not exists source_url text;
+alter table public.kits add column if not exists source_type text;
+alter table public.kits drop constraint if exists kits_source_type_check;
+alter table public.kits add constraint kits_source_type_check check (source_type is null or source_type in ('upload','google_drive','dropbox','onedrive','other'));
 alter table public.kits add column if not exists type text not null default 'Soundkit';
 do $$
 declare constraint_name text;
